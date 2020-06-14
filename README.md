@@ -80,9 +80,70 @@ After training the cascade classifier, -whether with HAAR or LBP algorithms- an 
 
 ### Train CNN Data
 
-You can find the code in ***cnn*** folder of the repository.
+You can find the code in ***CNN*** folder of the repository.
 
-The related information about the CNN model will be added soon.
+The procedure of the CNN training is divided into the followong steps:
+1. Dataset should be resized into 48x48 pixels.
+2. Dataset should be divided into three section including train, validation, and test.
+3. We should generate images with different angles and scales and shifts which will be used as training and validation data.
+4. We use sequential model which contains 8 convoloutional layers and 5 dense layers.
+5. We use Dropout, Batch Normalization, and MaxPool2D layers between convoloutional and dense layers.
+You can observe the CNN model configuration in the following code snippet.
+
+```python
+model = Sequential()
+model.add(Conv2D(64, kernel_size = (3, 3), input_shape = (48, 48, 1), activation = 'relu', kernel_regularizer=l2(0.01)))
+model.add(Conv2D(64, kernel_size = (3, 3), activation = 'relu', padding='same'))
+model.add(BatchNormalization())
+model.add(MaxPool2D(pool_size = (2, 2)))
+model.add(Dropout(0.3))
+
+model.add(Conv2D(128, kernel_size = (3, 3), activation = 'relu', padding='same'))
+model.add(BatchNormalization())
+model.add(Conv2D(128, kernel_size = (3, 3), activation = 'relu', padding='same'))
+model.add(BatchNormalization())
+model.add(MaxPool2D(pool_size = (2, 2)))
+model.add((Dropout(0.4)))
+
+model.add(Conv2D(256, kernel_size = (3, 3), activation = 'relu', padding='same'))
+model.add(BatchNormalization())
+model.add(Conv2D(256, kernel_size = (3, 3), activation = 'relu', padding='same'))
+model.add(BatchNormalization())
+model.add(MaxPool2D(pool_size = (2, 2)))
+model.add((Dropout(0.5)))
+
+model.add(Conv2D(512, kernel_size = (3, 3), activation = 'relu', padding='same'))
+model.add(BatchNormalization())
+model.add(Conv2D(512, kernel_size = (3, 3), activation = 'relu', padding='same'))
+model.add(BatchNormalization())
+model.add(MaxPool2D(pool_size = (2, 2)))
+model.add((Dropout(0.5)))
+
+model.add(Flatten())
+model.add(Dense(512, activation = 'relu'))
+model.add(Dropout(0.5))
+
+model.add(Dense(256, activation = 'relu'))
+model.add(Dropout(0.4))
+model.add(BatchNormalization())
+
+model.add(Dense(128, activation = 'relu'))
+model.add(Dropout(0.3))
+
+model.add(Dense(64, activation = 'relu'))
+model.add(Dropout(0.3))
+model.add(BatchNormalization())
+
+model.add(Dense(5, activation = 'softmax'))
+model.compile(loss = 'categorical_crossentropy', optimizer = 'adam', metrics = ['accuracy'])
+model.fit_generator(generator=train_generator,
+                    steps_per_epoch=4096,
+                    validation_data=valid_generator,
+                    validation_steps=1024,
+                    epochs=1000,
+                    callbacks= [model_check, earlystopping, reduce_lr]
+)
+```
 
 We've used **Keras** to train and predict.
 
