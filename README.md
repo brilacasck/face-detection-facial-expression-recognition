@@ -81,6 +81,7 @@ After training the cascade classifier, -whether with HAAR or LBP algorithms- an 
 ### Train CNN Data
 
 You can find the code in ***CNN*** folder of the repository.
+We've used **Keras** library to train and predict.
 
 The procedure of the CNN training is divided into the followong steps:
 1. Dataset should be resized into 48x48 pixels.
@@ -88,6 +89,8 @@ The procedure of the CNN training is divided into the followong steps:
 3. We should generate images with different angles and scales and shifts which will be used as training and validation data.
 4. We use sequential model which contains 8 convoloutional layers and 5 dense layers.
 5. We use Dropout, Batch Normalization, and MaxPool2D layers between convoloutional and dense layers.
+6. Finally, after the training, we test our trained model with the test dataset. 
+
 You can observe the CNN model configuration in the following code snippet.
 
 ```python
@@ -144,8 +147,10 @@ model.fit_generator(generator=train_generator,
                     callbacks= [model_check, earlystopping, reduce_lr]
 )
 ```
-
-We've used **Keras** to train and predict.
+The validation accuracy is **0.6767**.
+The validation loss is **0.8386**.
+The training accuracy is **0.7165**.
+The training accuracy is **0.7616**.
 
 ----
 
