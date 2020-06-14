@@ -38,7 +38,7 @@ The dataset should be separated to these 6 expressions:
 - angry
 
 Well, better to say that we used these six expression list to classify the sentiment of a face.
-You could use any dataset type that you are needed!
+You could use any dataset type that you need!
 
 ----
 
