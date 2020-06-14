@@ -1,0 +1,8 @@
+1. fill out the folders: "neg_orig" and "pos_orig" with images
+2. run "to_gray.python" program to resize and convert images to grayscale and put them to "pos" and "neg" folders
+3. run "create_bg.sh" and "create_info.sh" create information files: "bg.txt" for negatives and "info.dat" for positives (information files init)
+4. run "create_neg.sh" and "create_pos.sh" to create samples with some single images in "single_neg" and "single_pos" folders
+5. run "merge_neg_samples.sh" and "merge_pos_samples" to merge .lst files for the generated samples to the "bg.txt" and "info.dat" files
+6. copy info/*.jpg to "pos" folder and bg/*.jpg to "neg" folder
+7. run "create_samples.sh" to run opencv_createsamples command for generating .vec file
+8. run "nohup ./train.sh &" to run the training in background

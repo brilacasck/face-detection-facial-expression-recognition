@@ -1,0 +1,1 @@
+opencv_createsamples -vec ./positives.vec -view
