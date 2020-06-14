@@ -148,8 +148,11 @@ model.fit_generator(generator=train_generator,
 )
 ```
 The validation accuracy is **0.6767**.
+
 The validation loss is **0.8386**.
+
 The training accuracy is **0.7165**.
+
 The training accuracy is **0.7616**.
 
 ----
