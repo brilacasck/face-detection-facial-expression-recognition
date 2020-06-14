@@ -7,52 +7,48 @@
 
 ## Stages
 
-1. Data Mining
-2. Run Opencv Cascade Detection Script
-3. Obtain Cascade XML file
-4. Train CNN Data
-5. Merge Face Detection and Facial Expression Recognition
+1. Gathering Dataset 
+2. Train Cascade Classifier 
+3. Train CNN 
+4. Merge Face Detection and Facial Expression Recognition
 
 ----
 ----
 ----
 
-### Data Mining
+### Gathering Dataset
 
-We'll need 2 datasets for our purpose:
+We need 2 datasets for our project:
 
-1. dataset for cascade classification
-2. dateset for cnn classification
+1. Dataset for Cascade Classifier
+2. Dateset for CNN
 
-The first is used to detect faces among all other objects. \
-So the **faces** are the **positive** data and **all other objects** could be the **negative** data.
+The first dataset is used to detect face among other objects. \
+So the **faces** are the **positive** data and **other objects** could be the **negative**.
 
-The seconds will be used for our convolutional neural network feed. \
-The dataset should be separated to these 6 expressions:
+The second dataset is used for CNN feed. After the CNN training, the trained model can recognize five different emotions. Therefore, we seperate the second dataset to the following expressions. \
 
 - neutral
 - happy
 - sad
 - surprised
-- disgusted
 - angry
 
-Well, better to say that we used these six expression list to classify the sentiment of a face.
-You could use any dataset type that you need!
+You can train the cascade classifier and the CNN with any type of data!
 
 ----
 
-### Opencv Train Cascade
+### Train Cascade Classifier
 
-You can find relevant codes in ***cascade*** folder of repository.
+You can find relevant code in ***cascade*** folder of the repository.
 
 To be honest, this part of job was a little tricky and boring. \
-To use the haar or lbp `opencv_traincascade` you should:
+To use the haar or lbp `opencv_traincascade`, first you should:
 
-1. Have opencv and opencv_contrib command collections
+1. Get opencv and opencv_contrib command collections
 2. Run the command via cli rather than python program
 
-So we had decided to write some *bash scripts* to make the process easier And it is about a year passed from that procedure and I don't really remember the exact steps. \
+So we had decided to write some *bash scripts* to make the process easier. \
 This is what I'd wrote as an *Instruction*:
 
 1. fill out the folders: **"neg_orig"** and **"pos_orig"** with images
@@ -65,30 +61,28 @@ This is what I'd wrote as an *Instruction*:
 8. run `nohup ./train.sh &` to run the training in background
 
 **AAAAH YEAH That is sort of complicated, You might say and yes it is.** \
-The concept is that, you have some negative and positive images in two diffenrent folders. say 1000 images for example. but you need to generate more images with different aspects (angles, perspectives). \
-So what we've done, is that after creating *information data file* of original images, \
-We used some single images (e.g. 10 images) to generate more than 10000 images with different perspectives. \
-Then again we tried to make another *information data file* for these new images. \
-Finally we merged all the information files to pass to the `opencv_traincascade`.
+The concept is that you have some negative and positive images in two different folders, about 1000 images in each. However, you need to generate more images with different aspects (angles, perspectives, ...). \
+So what we've done, is creating *information data file* of original images. \
+Afterward, we generate more than 10000 of images with different perspective and angles from a single image.  \
+Then, we tried to make another *information data file* for these new images. \
+Finally we merged all the information files to pass through the `opencv_traincascade`.
 
-If you are messed up till now, I suggest you to read these tutorials instead to understand the concept and running procedure:
+If you are messed up till now, I suggest you to read following tutorials:
 
 - https://docs.opencv.org/master/dc/d88/tutorial_traincascade.html
 - https://www.learnopencv.com/training-better-haar-lbp-cascade-eye-detector-opencv/
 
 ----
 
-### Obtain Cascade.xml File
-
-After training cascade detector, -whether with HAAR or LBP algorithms- an XML file will be generated and we'll need it for our next step:
+After training the cascade classifier, -whether with HAAR or LBP algorithms- an XML file will be generated which is needed for the final  step:
 
 > Facial Expression Classification
 
 ### Train CNN Data
 
-You can find the codes in ***cnn*** folder of repository.
+You can find the code in ***cnn*** folder of the repository.
 
-Well, it's an ordinary convolutional neural network, So It seems doesn't need to be explained more.
+The related information about the CNN model will be added soon.
 
 We've used **Keras** to train and predict.
 
@@ -96,7 +90,7 @@ We've used **Keras** to train and predict.
 
 ### Merge
 
-This stage is to use tha cascade.xml to find the face and use the cnn trained model to detect the facial expression.
+This stage is to use the cascade.xml and the CNN trained model to detect the face position and the facial expression respectively. 
 
 **No complexity** >> We didn't push the merged codes
 
